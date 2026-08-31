@@ -22,10 +22,14 @@ RUN find submodules/ -name .git -type f -delete
 
 ENV ROSDEP_LOCAL_DEV=true
 
-# Create python virtual environment and install toolchain submodules in editable mode
-RUN python3 -m venv .venv \
-    && .venv/bin/pip install --upgrade pip \
-    && .venv/bin/pip install \
+# Ensure any host-copied virtual environments or caches are purged
+RUN rm -rf /workspace/.venv
+
+# Create python virtual environment in /opt/venv and link to /workspace/.venv
+RUN python3 -m venv /opt/venv \
+    && ln -s /opt/venv /workspace/.venv \
+    && /opt/venv/bin/pip install --upgrade pip \
+    && /opt/venv/bin/pip install \
         -e submodules/rosdistro[test] \
         -e submodules/rosdep[test] \
         -e submodules/rosinstall_generator
