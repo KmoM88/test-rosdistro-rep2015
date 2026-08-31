@@ -51,9 +51,16 @@ You can execute the test suite either inside an isolated Docker container (recom
 
 ### Method 1: Using the Automated Docker Script (Recommended)
 
-Run the unified Docker execution script:
+Run the test runner specifying either `light` (default) or `full`:
+
 ```bash
+# Run light in-memory test suite:
 ./run_tests.sh
+# or explicitly:
+./run_tests.sh light
+
+# Run full end-to-end CLI test suite:
+./run_tests.sh full
 ```
 
 ---
@@ -195,16 +202,19 @@ ALL REP-2015 EXTENSION TESTS PASSED SUCCESSFULLY!
 
 ---
 
-## Test Adaptations and Exceptions
+---
 
-To ensure tests run hermetically and reproducibly, the following adaptations were implemented:
+## Test Execution Modes (`light` vs `full`)
 
-1. **`rosdep` Isolated Environment**:
-   * Standard `rosdep` reads `/etc/ros/rosdep/sources.list.d/`, which can point to public remote internet sources.
-   * In `test_integration.py`, an isolated temporary directory (`tempfile.mkdtemp()`) is configured via `ROS_HOME` and `ROSDEP_SOURCE_PATH` with a local dummy sources list. This ensures `rosdep` only tests the in-tree `index.yaml` and does not query external networks.
-2. **`ReleaseFile` and Source-Only Repositories**:
-   * `rosdep`'s `ReleaseFile` inspects packages that define binary `release:` specifications (GBP releases).
-   * Upstream Gazebo `jetty` only declares `source:` Git specifications in its distribution file (source-only build).
-   * As expected, `rosinstall_generator` handles source checkouts, while `rosdep` verifies binary package name mapping for released packages (`std_msgs`, `turtlesim`, `ros_gz_sim`).
-3. **Chained In-Memory Caches**:
-   * In compliance with REP-2015 chained caching, `lyrical-cache.yaml` only declares packages local to `lyrical`. Packages from `jetty` (`gz-sim`, `gz-cmake`, etc.) are resolved and merged dynamically in-memory from `jetty-cache.yaml`.
+The test suite provides two distinct modes for testing `lyrical` extending `jetty`:
+
+### 1. Light Mode (`test_integration.py`)
+* Executed with: `./run_tests.sh light` (or `./run_tests.sh`)
+* Performs fast in-memory Python API validation of the parsed distribution files, cycle detection, platform compatibility warning logging, and in-memory chained cache merging.
+
+### 2. Full Mode (`test_full.py`)
+* Executed with: `./run_tests.sh full`
+* Pure end-to-end execution of the official command-line tools without any internal Python workarounds:
+  * **Direct CLI `rosinstall_generator`**: Queries multiple inherited Gazebo packages (`gz-sim`, `gz-transport`, `sdformat`) across distribution boundaries using `--rosdistro lyrical --upstream`.
+  * **Direct CLI `rosdep resolve`**: Invokes the `rosdep` CLI directly (`rosdep resolve <pkg> --rosdistro lyrical --os=ubuntu:resolute`) to verify Debian package mapping for both core packages (`ros-lyrical-std-msgs`, `ros-lyrical-turtlesim`) and Gazebo bridges (`ros-lyrical-ros-gz-sim`, `ros-lyrical-ros-gz-bridge`).
+  * **Chained Cache Validation**: Loads and verifies the multi-distribution package cache hierarchy.

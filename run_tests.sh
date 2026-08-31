@@ -4,12 +4,28 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+MODE="${1:-light}"
+
 echo "=========================================================="
 echo "Building test-rosdistro-rep2015 Docker test environment..."
 echo "=========================================================="
 docker build -t test-rosdistro-rep2015 -f Dockerfile .
 
-echo "=========================================================="
-echo "Running REP-2015 Integration Test Suite inside Docker..."
-echo "=========================================================="
-docker run --rm test-rosdistro-rep2015 /workspace/.venv/bin/python3 /workspace/test_integration.py
+case "$MODE" in
+    light)
+        echo "=========================================================="
+        echo "Running Light Integration Test Suite (test_integration.py)..."
+        echo "=========================================================="
+        docker run --rm test-rosdistro-rep2015 /workspace/.venv/bin/python3 /workspace/test_integration.py
+        ;;
+    full)
+        echo "=========================================================="
+        echo "Running Full End-to-End Test Suite (test_full.py)..."
+        echo "=========================================================="
+        docker run --rm test-rosdistro-rep2015 /workspace/.venv/bin/python3 /workspace/test_full.py
+        ;;
+    *)
+        echo "Error: Unknown test mode '$MODE'. Supported modes are 'light' or 'full'."
+        exit 1
+        ;;
+esac
