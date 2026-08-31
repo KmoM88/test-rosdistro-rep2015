@@ -21,4 +21,4 @@ jobs:
       - name: Execute Automated Tests in Docker
         run: |
           chmod +x run_tests.sh
-          ./run_tests.sh
+          ./run_tests.sh full

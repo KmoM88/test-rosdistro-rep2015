@@ -20,7 +20,12 @@ case "$MODE" in
         ;;
     full)
         echo "=========================================================="
-        echo "Running Full End-to-End Test Suite (test_full.py)..."
+        echo "Running Light Integration Tests (test_integration.py)..."
+        echo "=========================================================="
+        docker run --rm test-rosdistro-rep2015 /workspace/.venv/bin/python3 /workspace/test_integration.py
+        echo ""
+        echo "=========================================================="
+        echo "Running Full End-to-End CLI Tests (test_full.py)..."
         echo "=========================================================="
         docker run --rm test-rosdistro-rep2015 /workspace/.venv/bin/python3 /workspace/test_full.py
         ;;
