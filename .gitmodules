@@ -1,0 +1,20 @@
+[submodule "submodules/rosdistro"]
+	path = submodules/rosdistro
+	url = https://github.com/KmoM88/rosdistro.git
+	branch = feature/rep-2015-v3-parser
+[submodule "submodules/rosdep"]
+	path = submodules/rosdep
+	url = https://github.com/KmoM88/rosdep.git
+	branch = feature/rep-2015-tool-integration
+[submodule "submodules/rosinstall_generator"]
+	path = submodules/rosinstall_generator
+	url = https://github.com/KmoM88/rosinstall_generator.git
+	branch = feature/rep-2015-tool-integration
+[submodule "submodules/gazebodistro"]
+	path = submodules/gazebodistro
+	url = https://github.com/gazebo-tooling/gazebodistro.git
+	branch = jrivero/jetty-rosdistro
+[submodule "submodules/ros-rosdistro"]
+	path = submodules/ros-rosdistro
+	url = https://github.com/KmoM88/ros-rosdistro.git
+	branch = feature/rep-2015-jetty-extension
