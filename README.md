@@ -1,5 +1,7 @@
 # ROS Distribution Extension Test Suite (REP-2015)
 
+[![CI](https://github.com/KmoM88/test-rosdistro-rep2015/actions/workflows/ci.yaml/badge.svg)](https://github.com/KmoM88/test-rosdistro-rep2015/actions/workflows/ci.yaml)
+
 This repository serves as a dedicated, standalone integration test environment to validate the modifications implemented in `rosdistro`, `rosdep`, and `rosinstall_generator` to support [REP-2015](https://ros.org/reps/rep-2015.html) (ROS Distribution Extensions).
 
 The test suite validates cross-distribution inheritance by using **`lyrical`** (a downstream ROS 2 distribution from the user fork) directly extending **`jetty`** (a custom upstream Gazebo distribution) using the `source_rebuild` extension method.
@@ -31,6 +33,15 @@ If you already cloned without `--recursive`:
 ```bash
 git submodule update --init --recursive
 ```
+
+---
+
+## Continuous Integration (CI)
+
+This repository includes an automated [GitHub Actions CI Workflow](https://github.com/KmoM88/test-rosdistro-rep2015/actions/workflows/ci.yaml) that runs on every push and pull request to the `main` branch.
+
+* **Check Status Online**: Anyone can verify the test results without cloning or running the tests locally by visiting the [GitHub Actions page](https://github.com/KmoM88/test-rosdistro-rep2015/actions).
+* **Workflow Execution**: The CI runner automatically checks out all submodules recursively, builds the containerized test environment via [Dockerfile](Dockerfile), and executes [test_integration.py](test_integration.py).
 
 ---
 

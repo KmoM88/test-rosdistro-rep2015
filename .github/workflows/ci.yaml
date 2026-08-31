@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  integration-tests:
+    name: Run REP-2015 Integration Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository with Submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Execute Automated Tests in Docker
+        run: |
+          chmod +x run_tests.sh
+          ./run_tests.sh
