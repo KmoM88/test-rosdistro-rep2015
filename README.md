@@ -60,8 +60,6 @@ Run the test runner specifying the desired test mode:
 ./run_tests.sh build
 # or build specific packages:
 ./run_tests.sh build gz-cmake gz-tools2
-# or build the entire distribution from source:
-./run_tests.sh build --all
 ```
 
 ---
@@ -422,8 +420,8 @@ graph TD
 
 ### Tier 4: `build` (`test_build_pipeline.sh`)
 * **Focus**: **Real Network Checkout, Dependency Installation & C++ Compilation**
-* **Command**: `./run_tests.sh build` (or `./run_tests.sh build --all`)
-* **Execution Time**: ~30 seconds for `gz-cmake`, or hours for `--all`.
+* **Command**: `./run_tests.sh build` (or `./run_tests.sh build <package_names...>`)
+* **Execution Time**: ~30 seconds for `gz-cmake`.
 * **How it steps forward from `exhaustive`**:
   * Previous tiers only inspected **metadata** (YAML files, tags, and strings). They never downloaded source code or invoked a compiler.
   * `build` proves that the metadata produces **actual working software on disk**:
