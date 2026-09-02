@@ -83,7 +83,7 @@ def run_integration_test():
     print(output.strip())
     assert 'local-name: gz-sim' in output, "local-name: gz-sim missing in rosinstall output"
     assert 'uri: https://github.com/gazebosim/gz-sim' in output, "Git URI missing in rosinstall output"
-    assert 'version: 10.5.0' in output, "Expected release tag 10.5.0 in rosinstall output"
+    assert 'gz-sim10_10.5.0' in output, "Expected release tag gz-sim10_10.5.0 in rosinstall output"
     print(" -> rosinstall_generator resolved inherited Gazebo source successfully.")
 
     # -------------------------------------------------------------
