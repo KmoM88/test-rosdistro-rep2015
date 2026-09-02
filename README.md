@@ -36,15 +36,6 @@ git submodule update --init --recursive
 
 ---
 
-## Continuous Integration (CI)
-
-This repository includes an automated [GitHub Actions CI Workflow](https://github.com/KmoM88/test-rosdistro-rep2015/actions/workflows/ci.yaml) that runs on every push and pull request to the `main` branch.
-
-* **Check Status Online**: Anyone can verify the test results without cloning or running the tests locally by visiting the [GitHub Actions page](https://github.com/KmoM88/test-rosdistro-rep2015/actions).
-* **Workflow Execution**: The CI runner automatically checks out all submodules recursively, builds the containerized test environment via [Dockerfile](Dockerfile), and executes [test_integration.py](test_integration.py).
-
----
-
 ## Running the Tests
 
 You can execute the test suite either inside an isolated Docker container (recommended) or manually on the host machine.
