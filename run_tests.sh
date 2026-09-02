@@ -29,8 +29,21 @@ case "$MODE" in
         echo "=========================================================="
         docker run --rm test-rosdistro-rep2015 /workspace/.venv/bin/python3 /workspace/test_full.py
         ;;
+    exhaustive)
+        echo "=========================================================="
+        echo "Running Exhaustive Distribution Scan (test_exhaustive.py)..."
+        echo "=========================================================="
+        docker run --rm test-rosdistro-rep2015 /workspace/.venv/bin/python3 /workspace/test_exhaustive.py
+        ;;
+    build)
+        shift || true
+        echo "=========================================================="
+        echo "Running Real Build Pipeline (test_build_pipeline.sh $@)..."
+        echo "=========================================================="
+        docker run --rm test-rosdistro-rep2015 bash /workspace/test_build_pipeline.sh "$@"
+        ;;
     *)
-        echo "Error: Unknown test mode '$MODE'. Supported modes are 'light' or 'full'."
+        echo "Error: Unknown test mode '$MODE'. Supported modes are 'light', 'full', 'exhaustive', or 'build [--all | pkgs...]'."
         exit 1
         ;;
 esac
