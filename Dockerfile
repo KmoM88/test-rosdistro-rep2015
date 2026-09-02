@@ -2,7 +2,7 @@ FROM ubuntu:noble
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install core runtime dependencies
+# Install core runtime and build dependencies
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     sudo \
+    build-essential \
+    cmake \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace
@@ -32,7 +34,9 @@ RUN python3 -m venv /opt/venv \
     && /opt/venv/bin/pip install \
         -e submodules/rosdistro[test] \
         -e submodules/rosdep[test] \
-        -e submodules/rosinstall_generator
+        -e submodules/rosinstall_generator \
+        vcstool \
+        colcon-common-extensions
 
 # Initialize rosdep in container
 RUN .venv/bin/rosdep init || true \
